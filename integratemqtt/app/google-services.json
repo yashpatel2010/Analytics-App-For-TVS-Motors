@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "509319587445",
+    "firebase_url": "https://newanalytics-fa7b1-default-rtdb.firebaseio.com",
+    "project_id": "newanalytics-fa7b1",
+    "storage_bucket": "newanalytics-fa7b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509319587445:android:c2acd4cd5392b26e39ba3c",
+        "android_client_info": {
+          "package_name": "com.example.integrated"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzyR3u3hYQ7_ngYCb1JS21Co1kshY6ZsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509319587445:android:8f48b0da8d319f4d39ba3c",
+        "android_client_info": {
+          "package_name": "com.example.integratemqtt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzyR3u3hYQ7_ngYCb1JS21Co1kshY6ZsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

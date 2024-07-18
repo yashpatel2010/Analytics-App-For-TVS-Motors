@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+#blockin {
+    text-align: center; /* Center the text inside the container */
+}
+button{
+    padding: 10px;
+    margin: auto;
+    background-color: #008CBA; /* Blue */
+}

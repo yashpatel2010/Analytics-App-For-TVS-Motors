@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Web Client</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>MQTT Web Client</h1><br><br>
+    <div id="blockin">
+        <button id="publishButton">Request Logcat</button>
+        <br><br>
+        <button id="stopBTN">Stop the Logcat fetching</button>
+        <br><br>
+        <button id="downloadButton">Display Data</button>
+    </div>
+
+    <div id="fileListContainer"></div>
+
+    <script>
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9V29up-dZhwtlM5MyrPlW4rKcPW_jo7c",
+            authDomain: "newanalytics-fa7b1.firebaseapp.com",
+            databaseURL: "https://newanalytics-fa7b1-default-rtdb.firebaseio.com",
+            projectId: "newanalytics-fa7b1",
+            storageBucket: "newanalytics-fa7b1.appspot.com",
+            messagingSenderId: "947144178278",
+            appId: "1:947144178278:web:0f25b781fe6377778e64c5",
+            measurementId: "G-CE9VVSLZ8E"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+
+        //for requesting the logcat
+
+        document.getElementById('publishButton').addEventListener('click', function() {
+            // Prompt the user for time and VIN number
+            const time = prompt('For how much time log should be generated?');
+            const vinNO = prompt('Write your VIN NO');
+            
+            // Connect to the MQTT broker (assuming Mosquitto is running on localhost)
+            const clientId = 'yourClientId';  // Specify your client ID
+            const client = mqtt.connect('ws://10.123.177.101:1883', { clientId: clientId });
+            
+            client.on('connect', function () {
+                const topic = 'test/topic';
+                const message = `Time: ${time}, VIN NO: ${vinNO}`;
+                client.publish(topic, message, function() {
+                    alert('Message published!');
+                    client.end();
+                });
+            });
+
+            client.on('error', function (error) {
+                console.error('Connection error: ', error);
+            });
+        });
+
+
+        //TO STOP THE LOGCAT FETCHING INBETWEEN
+        document.getElementById('stopBTN').addEventListener('click', () => {
+            client.publish('test/topic', 'Stop log fetch');
+        });
+
+
+        //TO DISPLAY THE LOGCAT IN BETWEEN
+        document.getElementById('downloadButton').addEventListener('click', () => {
+            const storageRef = firebase.storage().ref().child('logs');
+            storageRef.listAll().then(result => {
+                const fileListContainer = document.getElementById('fileListContainer');
+                fileListContainer.innerHTML = ''; // Clear previous list
+
+
+                result.items.forEach((fileRef, index) => {
+                    fileRef.getDownloadURL().then(url => {
+                        const fileLink = document.createElement('a');
+                        fileLink.href = url;
+                        fileLink.textContent = fileRef.name; // Use the actual file name
+                        fileLink.setAttribute('download', '');
+                        fileLink.style.display = 'block';
+                        fileListContainer.appendChild(fileLink);
+                    }).catch(error => {
+                        console.error('Error getting download URL:', error);
+                    });
+                });
+            }).catch(error => {
+                console.error('Error listing files:', error);
+            });
+        });
+
+
+
+
+    </script>
+</body>
+</html>
